@@ -86,7 +86,12 @@ def callback_query(call):
     user_id = call.from_user.id
     conn, c = create_connection()
 
-    if call.data == 'black':
+    c.execute("SELECT state FROM user_states WHERE user_id=?", (user_id,))
+    result = c.fetchone()
+    if result:
+        bot.answer_callback_query(call.id, "You have already choosen the side!")
+
+    elif call.data == 'black':
         bot.answer_callback_query(call.id, "You chose Black.")
         c.execute("INSERT OR REPLACE INTO user_states (user_id, state) VALUES (?, ?)", (user_id, 0))
         conn.commit()
