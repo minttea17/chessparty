@@ -94,7 +94,6 @@ def callback_query(call):
         bot.answer_callback_query(call.id, "You chose White.")
         c.execute("INSERT OR REPLACE INTO user_states (user_id, state) VALUES (?, ?)", (user_id, 1))
         conn.commit()
-    bot.send_message(call.id, config.ready)
 
 @bot.message_handler(func=lambda m: True)
 def echo_all(message):
